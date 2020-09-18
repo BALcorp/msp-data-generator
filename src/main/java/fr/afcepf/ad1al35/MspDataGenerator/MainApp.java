@@ -26,21 +26,21 @@ public class MainApp {
 		ObjectMapper mapper = new ObjectMapper();
 
 		CollectionType javaType = mapper.getTypeFactory().constructCollectionType(List.class, Product.class);
-		List<Product> products = mapper.readValue(new File("src/main/resources/products.json"), javaType);
+		List<Product> products = mapper.readValue(new File("src/main/resources/products-in.json"), javaType);
 
 		/* ******************** importing users to include username in booking ******************** */
 		javaType = mapper.getTypeFactory().constructCollectionType(List.class, User.class);
-		List<User> users = mapper.readValue(new File("src/main/resources/users.json"), javaType);
+		List<User> users = mapper.readValue(new File("src/main/resources/users-in.json"), javaType);
 		removeDuplicatedUserNames(users);
 		removeDuplicatedBookmarks(users);
-		mapper.writeValue(new File("src/main/resources/users-fixed.json"), users);
+		mapper.writeValue(new File("src/main/resources/users-out.json"), users);
 
 		/* ******************** generating bookings list ******************** */
 		List<Booking> bookings = buildBookings(products, users);
 		removeCollidingBookings(bookings);
 
 		/* ******************** creating json file ******************** */
-		mapper.writeValue(new File("src/main/resources/bookings.json"), bookings);
+		mapper.writeValue(new File("src/main/resources/bookings-out.json"), bookings);
 	}
 
 	public static void removeDuplicatedUserNames(List<User> users) {
@@ -51,12 +51,16 @@ public class MainApp {
 			if (!isAlreadyInUniqueList) uniqueUserNames.add(u.getUsername());
 			else usersToRemove.add(u);
 		}
+		System.out.println("-USERS-");
+		System.out.println(usersToRemove.size() + " duplicate users removed out of " + users.size() + " generated.");
 		for (User u : usersToRemove) {
 			users.remove(u);
 		}
+		System.out.println(users.size() + " users remaining.\r\n");
 	}
 
 	public static void removeDuplicatedBookmarks(List<User> users) {
+		System.out.println("-BOOKMARKS-");
 		for (User u : users) {
 			List<Long> idProducts = new ArrayList<>();
 			List<Bookmark> bookmarkToRemove = new ArrayList<>();
@@ -67,15 +71,18 @@ public class MainApp {
 					idProducts.add(b.getIdProduct());
 				}
 			}
+			System.out.println(bookmarkToRemove.size() + " duplicated boomarks removed for " + u.getUsername());
 			for (Bookmark b : bookmarkToRemove) {
 				u.getBookmarks().remove(b);
 			}
 		}
+		System.out.println(" ");
 	}
 
 	public static List<Booking> buildBookings(List<Product> products, List<User> users) {
 		List<Booking> bookings = new ArrayList<>();
 
+		System.out.println("Building bookings...\r\n");
 		for (int i = 0; i < BOOKINGS_TO_GENERATE; i++) {
 
 			/* ******************** Init new booking/product combo ******************** */
@@ -170,6 +177,7 @@ public class MainApp {
 				}
 			}
 		}
+		System.out.println("-BOOKINGS-");
 		System.out.println(bookingsToRemove.size() + " colliding bookings removed out of " + bookings.size() + " generated.");
 		for (Booking b : bookingsToRemove) {
 			bookings.remove(b);
