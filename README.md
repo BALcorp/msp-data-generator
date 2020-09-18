@@ -6,8 +6,8 @@ Project to generate two json files in src/main/resources :
  - a list of bookings (bookings-out), with colliding bookings (on the check in and out dates) removed.
 
 Please place in src/main/resources:
- - a users-in.json with a list of users (~100) conformed to the User dto.
- - a products-in.json with a list of products (~30) conformed to the User dto.
+ - a users-in.json with a list of users (~100) conform to the User and Bookmark dtos.
+ - a products-in.json with a list of products (~30) conform to the Product and Evaluation dtos.
 
 With the current repartition of values in the possibleDuration array in ValueGenerator, 
 I suggest these values in the MainApp :
