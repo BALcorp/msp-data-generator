@@ -1,5 +1,7 @@
 package fr.afcepf.ad1al35.MspDataGenerator.dto;
 
+import java.util.List;
+
 public class Product {
 
 	private Long idProduct;
@@ -11,12 +13,12 @@ public class Product {
 	private String address;
 	private String addressComplement;
 	private Integer zipCode;
-	private Long idEvaluation;
+	private List<Evaluation> evaluations;
 
 	public Product() {
 	}
 
-	public Product(Long idProduct, String title, Integer size, Integer maxGuests, Boolean petsAuthorized, Long dailyrate, String address, String addressComplement, Integer zipCode, Long idEvaluation) {
+	public Product(Long idProduct, String title, Integer size, Integer maxGuests, Boolean petsAuthorized, Long dailyrate, String address, String addressComplement, Integer zipCode, List<Evaluation> evaluations) {
 		this.idProduct = idProduct;
 		this.title = title;
 		this.size = size;
@@ -26,7 +28,7 @@ public class Product {
 		this.address = address;
 		this.addressComplement = addressComplement;
 		this.zipCode = zipCode;
-		this.idEvaluation = idEvaluation;
+		this.evaluations = evaluations;
 	}
 
 	public Long getIdProduct() {
@@ -101,11 +103,11 @@ public class Product {
 		this.zipCode = zipCode;
 	}
 
-	public Long getIdEvaluation() {
-		return idEvaluation;
+	public List<Evaluation> getEvaluations() {
+		return evaluations;
 	}
 
-	public void setIdEvaluation(Long idEvaluation) {
-		this.idEvaluation = idEvaluation;
+	public void setEvaluations(List<Evaluation> evaluations) {
+		this.evaluations = evaluations;
 	}
 }

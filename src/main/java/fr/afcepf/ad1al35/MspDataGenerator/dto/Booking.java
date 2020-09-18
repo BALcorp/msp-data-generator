@@ -1,10 +1,7 @@
 package fr.afcepf.ad1al35.MspDataGenerator.dto;
 
-import java.util.Date;
-
 public class Booking {
 
-	private long _id;
 	private String booking_date;
 	private String check_in_date;
 	private String check_out_date;
@@ -13,12 +10,12 @@ public class Booking {
 	private Product product;
 	private Integer guests_number;
 	private Long totalToPay;
+	private String userName;
 
 	public Booking() {
 	}
 
-	public Booking(long _id, String booking_date, String check_in_date, String check_out_date, Boolean pets, Boolean canceled, Product product, Integer guests_number, Long totalToPay) {
-		this._id = _id;
+	public Booking(String booking_date, String check_in_date, String check_out_date, Boolean pets, Boolean canceled, Product product, Integer guests_number, Long totalToPay, String userName) {
 		this.booking_date = booking_date;
 		this.check_in_date = check_in_date;
 		this.check_out_date = check_out_date;
@@ -27,14 +24,7 @@ public class Booking {
 		this.product = product;
 		this.guests_number = guests_number;
 		this.totalToPay = totalToPay;
-	}
-
-	public long get_id() {
-		return _id;
-	}
-
-	public void set_id(long _id) {
-		this._id = _id;
+		this.userName = userName;
 	}
 
 	public String getBooking_date() {
@@ -99,5 +89,13 @@ public class Booking {
 
 	public void setTotalToPay(Long totalToPay) {
 		this.totalToPay = totalToPay;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }

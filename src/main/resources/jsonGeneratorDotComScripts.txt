@@ -1,0 +1,29 @@
+=====
+Users
+=====
+
+[
+  '{{repeat(100)}}',
+  {
+
+    firstName: '{{firstName()}}',
+    lastName: '{{surname()}}',
+    username: function (tags) {
+      return this.firstName + Math.floor(Math.random() * 100);
+    },
+    password: '123-Soleil',
+    email: '{{email(true)}}',
+    country:'{{country()}}',
+    birthDate: '{{date(new Date(1940, 0, 1), new Date(2000, 0, 1), "YYYY-MM-dd")}}',
+    telephone: '+' + Math.floor(Math.random() * 100) + ' {{phone()}}',
+    bookmarks: [
+       '{{repeat()}}',
+      {
+        addDate: '{{date(new Date(2017, 0, 1), new Date(), "YYYY-MM-ddThh:mm:ss")}}',
+        idProduct: '{{index(Math.floor(Math.random() * 30))}}'
+      }
+    ]
+  }
+]
+
+*******************************************************************************************
