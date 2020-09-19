@@ -52,6 +52,18 @@ public class ValueGenerator {
 
 		return possibleDuration.get(rand.nextInt(possibleDuration.size()));
 	}
+
+	public static Integer generateRandomWeightedRating() {
+		Random rand = new Random();
+		List<Integer> possibleRatings = Arrays.asList(
+				1,
+				2, 2,
+				3, 3, 3,
+				4, 4, 4, 4, 4, 4,
+				5, 5, 5, 5, 5, 5
+		);
+		return possibleRatings.get(rand.nextInt(possibleRatings.size()));
+	}
 	
 	public static Integer generateRandomNumber(int min, int max) {
 		return (int) (Math.random() * (max - min) + min);
