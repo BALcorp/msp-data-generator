@@ -1,5 +1,6 @@
 package fr.afcepf.ad1al35.MspDataGenerator.dto;
 
+
 public class Booking {
 
 	private String booking_date;
@@ -11,11 +12,12 @@ public class Booking {
 	private Integer guests_number;
 	private Long totalToPay;
 	private String userName;
+	private Evaluation evaluation;
 
 	public Booking() {
 	}
 
-	public Booking(String booking_date, String check_in_date, String check_out_date, Boolean pets, Boolean canceled, Product product, Integer guests_number, Long totalToPay, String userName) {
+	public Booking(String booking_date, String check_in_date, String check_out_date, Boolean pets, Boolean canceled, Product product, Integer guests_number, Long totalToPay, String userName, Evaluation evaluation) {
 		this.booking_date = booking_date;
 		this.check_in_date = check_in_date;
 		this.check_out_date = check_out_date;
@@ -25,6 +27,7 @@ public class Booking {
 		this.guests_number = guests_number;
 		this.totalToPay = totalToPay;
 		this.userName = userName;
+		this.evaluation = evaluation;
 	}
 
 	public String getBooking_date() {
@@ -97,5 +100,13 @@ public class Booking {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public Evaluation getEvaluation() {
+		return evaluation;
+	}
+
+	public void setEvaluation(Evaluation evaluation) {
+		this.evaluation = evaluation;
 	}
 }

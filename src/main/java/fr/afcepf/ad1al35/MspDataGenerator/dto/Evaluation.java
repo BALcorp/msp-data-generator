@@ -2,33 +2,23 @@ package fr.afcepf.ad1al35.MspDataGenerator.dto;
 
 public class Evaluation {
 
-    private String commentary;
     private String evaluationDate;
-    private Integer residence;
+    private String commentary;
+    private Integer communication;
     private Integer location;
     private Integer valueForMoney;
-    private Integer communication;
-    private String userName;
+    private Integer residence;
 
     public Evaluation() {
     }
 
-    public Evaluation(String commentary, String evaluationDate, Integer residence, Integer location, Integer valueForMoney, Integer communication, String userName) {
-        this.commentary = commentary;
+    public Evaluation(String evaluationDate, String commentary, Integer communication, Integer location, Integer valueForMoney, Integer residence) {
         this.evaluationDate = evaluationDate;
-        this.residence = residence;
+        this.commentary = commentary;
+        this.communication = communication;
         this.location = location;
         this.valueForMoney = valueForMoney;
-        this.communication = communication;
-        this.userName = userName;
-    }
-
-    public String getCommentary() {
-        return commentary;
-    }
-
-    public void setCommentary(String commentary) {
-        this.commentary = commentary;
+        this.residence = residence;
     }
 
     public String getEvaluationDate() {
@@ -39,12 +29,20 @@ public class Evaluation {
         this.evaluationDate = evaluationDate;
     }
 
-    public Integer getResidence() {
-        return residence;
+    public String getCommentary() {
+        return commentary;
     }
 
-    public void setResidence(Integer residence) {
-        this.residence = residence;
+    public void setCommentary(String commentary) {
+        this.commentary = commentary;
+    }
+
+    public Integer getCommunication() {
+        return communication;
+    }
+
+    public void setCommunication(Integer communication) {
+        this.communication = communication;
     }
 
     public Integer getLocation() {
@@ -63,19 +61,11 @@ public class Evaluation {
         this.valueForMoney = valueForMoney;
     }
 
-    public Integer getCommunication() {
-        return communication;
+    public Integer getResidence() {
+        return residence;
     }
 
-    public void setCommunication(Integer communication) {
-        this.communication = communication;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setResidence(Integer residence) {
+        this.residence = residence;
     }
 }
