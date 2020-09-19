@@ -1,24 +1,31 @@
 package fr.afcepf.ad1al35.MspDataGenerator.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class Product {
 
+	@JsonProperty("id_product")
 	private Long idProduct;
 	private String title;
 	private Integer size;
+	@JsonProperty("max_guests")
 	private Integer maxGuests;
+	@JsonProperty("pets_authorized")
 	private Boolean petsAuthorized;
+	@JsonProperty("daily_rate")
 	private Long dailyrate;
 	private String address;
+	@JsonProperty("address_complement")
 	private String addressComplement;
+	@JsonProperty("zip_code")
 	private Integer zipCode;
-	private List<Evaluation> evaluations;
 
 	public Product() {
 	}
 
-	public Product(Long idProduct, String title, Integer size, Integer maxGuests, Boolean petsAuthorized, Long dailyrate, String address, String addressComplement, Integer zipCode, List<Evaluation> evaluations) {
+	public Product(Long idProduct, String title, Integer size, Integer maxGuests, Boolean petsAuthorized, Long dailyrate, String address, String addressComplement, Integer zipCode) {
 		this.idProduct = idProduct;
 		this.title = title;
 		this.size = size;
@@ -28,7 +35,6 @@ public class Product {
 		this.address = address;
 		this.addressComplement = addressComplement;
 		this.zipCode = zipCode;
-		this.evaluations = evaluations;
 	}
 
 	public Long getIdProduct() {
@@ -101,13 +107,5 @@ public class Product {
 
 	public void setZipCode(Integer zipCode) {
 		this.zipCode = zipCode;
-	}
-
-	public List<Evaluation> getEvaluations() {
-		return evaluations;
-	}
-
-	public void setEvaluations(List<Evaluation> evaluations) {
-		this.evaluations = evaluations;
 	}
 }
