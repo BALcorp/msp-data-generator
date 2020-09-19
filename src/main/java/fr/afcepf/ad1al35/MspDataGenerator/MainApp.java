@@ -94,20 +94,17 @@ public class MainApp {
 	}
 
 	public static List<Booking> buildBookings(List<Product> products, List<User> users) {
-		List<Booking> bookings = new ArrayList<>();
-
 		System.out.println("Building bookings...\r\n");
+		List<Booking> bookings = new ArrayList<>();
 		for (int i = 0; i < BOOKINGS_TO_GENERATE; i++) {
 
 			/* ******************** Init new booking/product combo ******************** */
-
 			Random rand = new Random();
 
 			Product randomProduct = products.get(rand.nextInt(products.size()));
 
 			Booking booking = new Booking();
 			booking.setProduct(randomProduct);
-//			booking.setProduct(products.get(0)); // For testing purposes
 
 			int index = (int) Math.floor(Math.random() * users.size());
 			if(index < 1 ) index = 1;
@@ -116,11 +113,9 @@ public class MainApp {
 			booking.setPets(false);
 			booking.setCanceled(false);
 
-
 			/* ******************** setting various dates ******************** */
 
 				// Booking date is generated as a LocalDate to simplify process, then converted in LocalDateTime later
-
 			LocalDate generatedBookingDate = ValueGenerator.generateRandomLocalDate(APP_EARLIEST_DATE, LocalDate.now());
 			LocalDateTime generatedBookingDateTime = generatedBookingDate.atTime(
 					ValueGenerator.generateRandomNumber(0,23),
@@ -129,37 +124,25 @@ public class MainApp {
 			);
 			booking.setBooking_date(generatedBookingDateTime.toString());
 
-
 				// Check-in date is generated as a LocalDate with Booking date as a min and a 1 year later limit as a max
-
 			LocalDate generatedCheckInDate = ValueGenerator.generateRandomLocalDate(generatedBookingDate, generatedBookingDate.plusYears(1));
 			booking.setCheck_in_date(generatedCheckInDate.toString());
-//			booking.setCheck_in_date(LocalDate.of(2020, 1, 10 + i * 4).toString()); // For testing purposes
-
 
 				// Check-out date is generated as a LocalDate with Check-in date + 1 day as a min and a 21 days later limit as a max
-
 			LocalDate generatedCheckOutDate = generatedCheckInDate.plusDays(ValueGenerator.generateRandomWeightedDuration());
 			booking.setCheck_out_date(generatedCheckOutDate.toString());
-//			booking.setCheck_out_date(LocalDate.of(2020, 1, 15 + i * 4).toString()); // For testing purposes
 
 			/* ******************** setting guests number ******************** */
-
 			Integer guestsNumber = ValueGenerator.generateRandomNumber(1, randomProduct.getMaxGuests());
 			booking.setGuests_number(guestsNumber);
 
-
 			/* ******************** setting total price ******************** */
-
 			Long totalToPay = ValueGenerator.calculateTotalPrice(randomProduct.getDailyrate(), generatedCheckInDate, generatedCheckOutDate);
 			booking.setTotalToPay(totalToPay);
 
-
 			/* ******************** filling the list ******************** */
-
 			bookings.add(booking);
 		}
-
 		return bookings;
 	}
 
