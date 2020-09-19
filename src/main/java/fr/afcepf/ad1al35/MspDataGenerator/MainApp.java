@@ -188,7 +188,8 @@ public class MainApp {
 		for (int i = 0; i < bookings.size(); i++) {
 			Booking booking = bookings.get(i);
 			if (booking.getCheck_out_date().compareTo(LocalDate.now().toString()) < 0) {
-				Evaluation evaluation = new Evaluation(
+				// This evaluation will go into the sql import (leave the commentary escape characters)
+				Evaluation evaluationForSql = new Evaluation(
 						booking.getCheck_out_date(),
 						commentaries.get(i % commentaries.size()),
 						ValueGenerator.generateRandomWeightedRating(),
@@ -196,8 +197,17 @@ public class MainApp {
 						ValueGenerator.generateRandomWeightedRating(),
 						ValueGenerator.generateRandomWeightedRating()
 				);
-				booking.setEvaluation(evaluation);
-				evaluations.add(new EvaluationForSql((long) evaluations.size() + 1, evaluation, booking.getProduct(), booking.getUserName()));
+				evaluations.add(new EvaluationForSql((long) evaluations.size() + 1, evaluationForSql, booking.getProduct(), booking.getUserName()));
+				// That evaluation will end up in the bookings-out.json (remove the commentary escape characters)
+				Evaluation evaluationForJson = new Evaluation(
+						booking.getCheck_out_date(),
+						commentaries.get(i % commentaries.size()).replace("\\'", "'"),
+						ValueGenerator.generateRandomWeightedRating(),
+						ValueGenerator.generateRandomWeightedRating(),
+						ValueGenerator.generateRandomWeightedRating(),
+						ValueGenerator.generateRandomWeightedRating()
+				);
+				booking.setEvaluation(evaluationForJson);
 			}
 		}
 		System.out.println("-EVALUATIONS-");
