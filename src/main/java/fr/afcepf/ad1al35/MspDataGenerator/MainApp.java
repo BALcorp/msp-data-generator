@@ -26,6 +26,7 @@ public class MainApp {
 	private static final int BOOKINGS_TO_GENERATE = 6000;
 	private static final String DATA_RESOURCES_FOLDER = "src/main/resources/data/";
 	private static final String DATA_TARGET_FOLDER = "target/data/";
+	private static final double EVALUATION_LEFT_RATIO = 0.2;
 
 	public static void main(String[] args) throws IOException {
 
@@ -66,7 +67,7 @@ public class MainApp {
 			else usersToRemove.add(u);
 		}
 		System.out.println("-USERS-");
-		System.out.println(usersToRemove.size() + " duplicate users removed out of " + users.size() + " generated.");
+		System.out.println(usersToRemove.size() + " duplicated users removed out of " + users.size() + " generated.");
 		for (User u : usersToRemove) {
 			users.remove(u);
 		}
@@ -183,25 +184,26 @@ public class MainApp {
 	}
 
 	public static List<EvaluationForSql> createEvaluations(List<Booking> bookings) {
-		List<String> commentaries = populateCommentaries();
+		String[] commentaries = populateCommentaries();
 		List<EvaluationForSql> evaluations = new ArrayList<>();
 		for (int i = 0; i < bookings.size(); i++) {
 			Booking booking = bookings.get(i);
-			if (booking.getCheck_out_date().compareTo(LocalDate.now().toString()) < 0) {
-				// This evaluation will go into the sql import (leave the commentary escape characters)
+			boolean toBeOrNotToBe = Math.random() < EVALUATION_LEFT_RATIO;
+			if (booking.getCheck_out_date().compareTo(LocalDate.now().toString()) < 0 && toBeOrNotToBe) {
+				// This evaluation will go into the sql import (add escape characters in the commentary )
 				Evaluation evaluationForSql = new Evaluation(
 						booking.getCheck_out_date(),
-						commentaries.get(i % commentaries.size()),
+						commentaries[i % commentaries.length].replace("'", "\\'"),
 						ValueGenerator.generateRandomWeightedRating(),
 						ValueGenerator.generateRandomWeightedRating(),
 						ValueGenerator.generateRandomWeightedRating(),
 						ValueGenerator.generateRandomWeightedRating()
 				);
 				evaluations.add(new EvaluationForSql((long) evaluations.size() + 1, evaluationForSql, booking.getProduct(), booking.getUserName()));
-				// That evaluation will end up in the bookings-out.json (remove the commentary escape characters)
+				// That evaluation will end up in the bookings-out.json (no escape characters)
 				Evaluation evaluationForJson = new Evaluation(
 						booking.getCheck_out_date(),
-						commentaries.get(i % commentaries.size()).replace("\\'", "'"),
+						commentaries[i % commentaries.length],
 						ValueGenerator.generateRandomWeightedRating(),
 						ValueGenerator.generateRandomWeightedRating(),
 						ValueGenerator.generateRandomWeightedRating(),
@@ -215,12 +217,59 @@ public class MainApp {
 		return evaluations;
 	}
 
-	public static List<String> populateCommentaries() {
-		List<String> commentaries = new ArrayList<>();
-		commentaries.add("J\\'ai passé un super moment dans un cadre exceptionnel.");
-		commentaries.add("J\\'ai adoré l\\'emplacement de l\\'appartement. Grâce à vous, j\\'ai vraiment découvert Paris.");
-		commentaries.add("Une expérience absolument éblouissante. Un vrai goût du luxe assumé.");
-		return commentaries;
+	public static String[] populateCommentaries() {
+		return new String[]{
+				"C'était super !",
+				"Assez génial !",
+				"Super tendance !",
+				"Etonnant...",
+				"Un peu effrayant.",
+				"Une décadence totale !",
+				"Il y avait une drôle d'odeur.",
+				"Un goût du luxe.",
+				"Ahhhhh Paris...",
+				"J'ai vu mieux.",
+				"Trop cher pour ce que c'est.",
+				"Une affaire !",
+				"Quartier désagréable.",
+				"Je suis envouté.",
+				"Spacieux et spartiate",
+				"Je reviendrai !",
+				"Bof...",
+				"Vue sympa.",
+				"J'ai bien mangé",
+				"Le voisin de gauche était bizarre.",
+				"La voisine était jolie :)",
+				"Service impeccable !",
+				"Bonne communication.",
+				"Un séjour agréable",
+				"Une plongée dans le vraie vie.",
+				"Pas mal.",
+				"Déconcertant.",
+				"Dans l'ensemble, j'ai adoré.",
+				"Un bon choix.",
+				"What a trip!",
+				"I had a blast",
+				"Top quality",
+				"GREAT !",
+				"I loved it.",
+				"A bit expensive.",
+				"Paris smells like dog poop.",
+				"I can't go back my small flat now.",
+				"Bueno !",
+				"What a view !",
+				"Living like a prince.",
+				"Quality service",
+				"I'll recommend it.",
+				"What a plaisant surprise !",
+				"A dream house in the city of lights.",
+				"An exciting night life !",
+				"Recommended.",
+				"I'll come back.",
+				"Second time I come, still pleased.",
+				"Could have had and extra room.",
+				"Strange noises coming from the toilets."
+		};
 	}
 
 	public static void createProductHousingSqlImport(List<EvaluationForSql> evaluations) {
