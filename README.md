@@ -1,21 +1,21 @@
 # msp-data-generator
 
 Project to generate two json files and a sql import file in target/data : 
- - a json of users (users-out), with users containing duplicated userName removed 
+ - a json of users (users-import.json), with users containing duplicated userName removed 
    and duplicated bookmarks removed.
- - a json of bookings (bookings-out), with colliding bookings (on the check in and out dates) removed,
+ - a json of bookings (bookings-import.json), with colliding bookings (on the check in and out dates) removed,
    and generated user evaluation.
- - the sql import for the msp-product-housing db (msp-product-housing-db-import-out.sql), 
+ - the sql import for the msp-product-housing db (msp-product-housing-import.sql), 
    with the evaluations generated here.
 
 Files included in src/main/resources/data:
- - a users-in.json with a list of users (1000) conform to the User and Bookmark dtos.
- - a products-in.json with a list of products (30) conform to the Product and Evaluation dtos.
+ - a "users.json" with a list of users (1000) conform to the User and Bookmark dtos.
+ - a "products.json" with a list of products (30) conform to the Product and Evaluation dtos.
  - the three parts of the sql import file that will be pieced together along with the evaluations to form
    the final import file.
  - the script used to make users in www.json-generator.com
- - the conf file to use in Logstash on the msp-product-housing db to generate the products-in.json (there will be some 
-   metadata to remove).
+ - the conf file to use in Logstash on the msp-product-housing mySql db to generate the products.json in ElasticSearch
+ (there will be some metadata to remove), using the "elk" stack.
 
 With the current repartition of values in the possibleDuration array in ValueGenerator, 
 I suggest these values in the MainApp :

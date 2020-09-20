@@ -34,16 +34,16 @@ public class MainApp {
 		ObjectMapper mapper = new ObjectMapper();
 
 		CollectionType javaType = mapper.getTypeFactory().constructCollectionType(List.class, Product.class);
-		List<Product> products = mapper.readValue(new File(DATA_RESOURCES_FOLDER + "products-in.json"), javaType);
+		List<Product> products = mapper.readValue(new File(DATA_RESOURCES_FOLDER + "products.json"), javaType);
 
 		/* ******************** importing users to include username in booking ******************** */
 		javaType = mapper.getTypeFactory().constructCollectionType(List.class, User.class);
-		List<User> users = mapper.readValue(new File(DATA_RESOURCES_FOLDER + "users-in.json"), javaType);
+		List<User> users = mapper.readValue(new File(DATA_RESOURCES_FOLDER + "users.json"), javaType);
 		removeDuplicatedUserNames(users);
 		removeDuplicatedBookmarks(users);
 
 		/* ******************** creating users json file ******************** */
-		mapper.writeValue(new File(DATA_TARGET_FOLDER + "users-out.json"), users);
+		mapper.writeValue(new File(DATA_TARGET_FOLDER + "users-import.json"), users);
 		System.out.println("*** users-out.json created ***\r\n");
 
 		/* ******************** generating bookings list ******************** */
@@ -55,10 +55,10 @@ public class MainApp {
 
 		/* *** creating msp-product-housing mysql import to load in db after starting msp-product-housing *** */
 		createProductHousingSqlImport(evaluations);
-		System.out.println("*** msp-product-housing-db-import-out.sql created ***");
+		System.out.println("*** msp-product-housing-import.sql created ***");
 
 		/* ******************** creating bookings json file ******************** */
-		mapper.writeValue(new File(DATA_TARGET_FOLDER + "bookings-out.json"), bookings);
+		mapper.writeValue(new File(DATA_TARGET_FOLDER + "bookings-import.json"), bookings);
 		System.out.println("*** bookings-out.json created ***");
 	}
 
@@ -132,22 +132,22 @@ public class MainApp {
 					ValueGenerator.generateRandomNumber(0,59),
 					ValueGenerator.generateRandomNumber(0,59)
 			);
-			booking.setBooking_date(generatedBookingDateTime.toString());
+			booking.setBookingDate(generatedBookingDateTime.toString());
 
 			// Check-in date is generated as a LocalDate with Booking date as a min and a 1 year later limit as a max
 			LocalDate generatedCheckInDate =
 					ValueGenerator.generateRandomLocalDate(generatedBookingDate, generatedBookingDate.plusYears(1));
-			booking.setCheck_in_date(generatedCheckInDate.toString());
+			booking.setCheckInDate(generatedCheckInDate.toString());
 
 			// Check-out date is generated as a LocalDate with Check-in date + 1 day as a min and a 21 days
 			// later limit as a max
 			LocalDate generatedCheckOutDate =
 					generatedCheckInDate.plusDays(ValueGenerator.generateRandomWeightedDuration());
-			booking.setCheck_out_date(generatedCheckOutDate.toString());
+			booking.setCheckOutDate(generatedCheckOutDate.toString());
 
 			/* ******************** setting guests number ******************** */
 			Integer guestsNumber = ValueGenerator.generateRandomNumber(1, randomProduct.getMaxGuests());
-			booking.setGuests_number(guestsNumber);
+			booking.setGuestsNumber(guestsNumber);
 
 			/* ******************** setting total price ******************** */
 			Long totalToPay =
@@ -169,15 +169,15 @@ public class MainApp {
 				boolean isAlreadyInRemovedList = bookingsToRemove.contains(bRef);
 				boolean isBetweenChechInAndCheckOut = false;
 				boolean isBeforeCheckInAndAfterCheckOut = false;
-				if ((b.getCheck_in_date().compareTo(bRef.getCheck_in_date()) > 0 &&
-						b.getCheck_in_date().compareTo(bRef.getCheck_out_date()) < 0)
+				if ((b.getCheckInDate().compareTo(bRef.getCheckInDate()) > 0 &&
+						b.getCheckInDate().compareTo(bRef.getCheckOutDate()) < 0)
 						||
-					(b.getCheck_out_date().compareTo(bRef.getCheck_in_date()) > 0 &&
-							b.getCheck_out_date().compareTo(bRef.getCheck_out_date()) < 0))
+					(b.getCheckOutDate().compareTo(bRef.getCheckInDate()) > 0 &&
+							b.getCheckOutDate().compareTo(bRef.getCheckOutDate()) < 0))
 				{
 					isBetweenChechInAndCheckOut = true;
-				} else if (b.getCheck_in_date().compareTo(bRef.getCheck_in_date()) < 0 &&
-						b.getCheck_out_date().compareTo(bRef.getCheck_out_date()) > 0)
+				} else if (b.getCheckInDate().compareTo(bRef.getCheckInDate()) < 0 &&
+						b.getCheckOutDate().compareTo(bRef.getCheckOutDate()) > 0)
 				{
 					isBeforeCheckInAndAfterCheckOut = true;
 				}
@@ -204,10 +204,10 @@ public class MainApp {
 		for (int i = 0; i < bookings.size(); i++) {
 			Booking booking = bookings.get(i);
 			boolean toBeOrNotToBe = Math.random() < EVALUATIONS_LEFT_RATIO;
-			if (booking.getCheck_out_date().compareTo(LocalDate.now().toString()) < 0 && toBeOrNotToBe) {
+			if (booking.getCheckOutDate().compareTo(LocalDate.now().toString()) < 0 && toBeOrNotToBe) {
 				// This evaluation will go into the sql import (add escape characters in the commentary )
 				Evaluation evaluationForSql = new Evaluation(
-						booking.getCheck_out_date(),
+						booking.getCheckOutDate(),
 						commentaries[i % commentaries.length].replace("'", "\\'"),
 						ValueGenerator.generateRandomWeightedRating(),
 						ValueGenerator.generateRandomWeightedRating(),
@@ -219,7 +219,7 @@ public class MainApp {
 						booking.getUserName()));
 				// That evaluation will end up in the bookings-out.json (no escape characters)
 				Evaluation evaluationForJson = new Evaluation(
-						booking.getCheck_out_date(),
+						booking.getCheckOutDate(),
 						commentaries[i % commentaries.length],
 						ValueGenerator.generateRandomWeightedRating(),
 						ValueGenerator.generateRandomWeightedRating(),
@@ -291,15 +291,15 @@ public class MainApp {
 
 	public static void createProductHousingSqlImport(List<EvaluationForSql> evaluations) {
 		try {
-			File inputFilePart1 = new File(DATA_RESOURCES_FOLDER + "msp-product-housing-db-import-in-part-1.sql");
-			File inputFilePart2 = new File(DATA_RESOURCES_FOLDER + "msp-product-housing-db-import-in-part-2.sql");
-			File inputFilePart3 = new File(DATA_RESOURCES_FOLDER + "msp-product-housing-db-import-in-part-3.sql");
+			File inputFilePart1 = new File(DATA_RESOURCES_FOLDER + "msp-product-housing-part-1.sql");
+			File inputFilePart2 = new File(DATA_RESOURCES_FOLDER + "msp-product-housing-part-2.sql");
+			File inputFilePart3 = new File(DATA_RESOURCES_FOLDER + "msp-product-housing-part-3.sql");
 			List<File> inputFiles = new ArrayList<>();
 			inputFiles.add(inputFilePart1);
 			inputFiles.add(inputFilePart2);
 			inputFiles.add(inputFilePart3);
 
-			File outputFile = new File(DATA_TARGET_FOLDER + "msp-product-housing-db-import-out.sql");
+			File outputFile = new File(DATA_TARGET_FOLDER + "msp-product-housing-import.sql");
 			FileOutputStream outputStream = new FileOutputStream(outputFile);
 
 			for (int i = 0; i < inputFiles.size(); i++) {
