@@ -3,7 +3,7 @@ Users
 =====
 
 [
-  '{{repeat(100)}}',
+  '{{repeat(1000)}}',
   {
 
     firstName: '{{firstName()}}',

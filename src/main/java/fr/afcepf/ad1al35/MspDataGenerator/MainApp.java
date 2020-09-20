@@ -26,7 +26,8 @@ public class MainApp {
 	private static final int BOOKINGS_TO_GENERATE = 6000;
 	private static final String DATA_RESOURCES_FOLDER = "src/main/resources/data/";
 	private static final String DATA_TARGET_FOLDER = "target/data/";
-	private static final double EVALUATION_LEFT_RATIO = 0.2;
+	private static final double EVALUATIONS_LEFT_RATIO = 0.3;
+	private static final double PRODUCTS_QUANTITY = 30;
 
 	public static void main(String[] args) throws IOException {
 
@@ -43,6 +44,7 @@ public class MainApp {
 
 		/* ******************** creating users json file ******************** */
 		mapper.writeValue(new File(DATA_TARGET_FOLDER + "users-out.json"), users);
+		System.out.println("*** users-out.json created ***\r\n");
 
 		/* ******************** generating bookings list ******************** */
 		List<Booking> bookings = buildBookings(products, users);
@@ -53,9 +55,11 @@ public class MainApp {
 
 		/* *** creating msp-product-housing mysql import to load in db after starting msp-product-housing *** */
 		createProductHousingSqlImport(evaluations);
+		System.out.println("*** msp-product-housing-db-import-out.sql created ***");
 
 		/* ******************** creating bookings json file ******************** */
 		mapper.writeValue(new File(DATA_TARGET_FOLDER + "bookings-out.json"), bookings);
+		System.out.println("*** bookings-out.json created ***");
 	}
 
 	public static void removeDuplicatedUserNames(List<User> users) {
@@ -76,26 +80,31 @@ public class MainApp {
 
 	public static void removeDuplicatedBookmarks(List<User> users) {
 		System.out.println("-BOOKMARKS-");
+		int bookmarksRemoved = 0;
+		int bookmarksTotal = 0;
 		for (User u : users) {
 			List<Long> idProducts = new ArrayList<>();
 			List<Bookmark> bookmarkToRemove = new ArrayList<>();
 			for (Bookmark b : u.getBookmarks()) {
-				if (idProducts.contains(b.getIdProduct()) || b.getIdProduct() == 0 || b.getIdProduct() > 30) {
+				bookmarksTotal++;
+				if (idProducts.contains(b.getIdProduct()) || b.getIdProduct() == 0 || b.getIdProduct() > PRODUCTS_QUANTITY) {
 					bookmarkToRemove.add(b);
+					bookmarksRemoved++;
 				} else {
 					idProducts.add(b.getIdProduct());
 				}
 			}
-			System.out.println(bookmarkToRemove.size() + " duplicated boomarks removed for " + u.getUsername());
 			for (Bookmark b : bookmarkToRemove) {
 				u.getBookmarks().remove(b);
 			}
 		}
-		System.out.println(" ");
+		System.out.println(bookmarksRemoved + " duplicated bookmarks removed from users out of " +
+				bookmarksTotal + ".");
+		System.out.println((bookmarksTotal - bookmarksRemoved) + " bookmarks remaining.\r\n");
 	}
 
 	public static List<Booking> buildBookings(List<Product> products, List<User> users) {
-		System.out.println("Building bookings...\r\n");
+		System.out.println("Building bookings. This may take a while...\r\n");
 		List<Booking> bookings = new ArrayList<>();
 		for (int i = 0; i < BOOKINGS_TO_GENERATE; i++) {
 
@@ -116,7 +125,7 @@ public class MainApp {
 
 			/* ******************** setting various dates ******************** */
 
-				// Booking date is generated as a LocalDate to simplify process, then converted in LocalDateTime later
+			// Booking date is generated as a LocalDate to simplify process, then converted in LocalDateTime later
 			LocalDate generatedBookingDate = ValueGenerator.generateRandomLocalDate(APP_EARLIEST_DATE, LocalDate.now());
 			LocalDateTime generatedBookingDateTime = generatedBookingDate.atTime(
 					ValueGenerator.generateRandomNumber(0,23),
@@ -125,12 +134,15 @@ public class MainApp {
 			);
 			booking.setBooking_date(generatedBookingDateTime.toString());
 
-				// Check-in date is generated as a LocalDate with Booking date as a min and a 1 year later limit as a max
-			LocalDate generatedCheckInDate = ValueGenerator.generateRandomLocalDate(generatedBookingDate, generatedBookingDate.plusYears(1));
+			// Check-in date is generated as a LocalDate with Booking date as a min and a 1 year later limit as a max
+			LocalDate generatedCheckInDate =
+					ValueGenerator.generateRandomLocalDate(generatedBookingDate, generatedBookingDate.plusYears(1));
 			booking.setCheck_in_date(generatedCheckInDate.toString());
 
-				// Check-out date is generated as a LocalDate with Check-in date + 1 day as a min and a 21 days later limit as a max
-			LocalDate generatedCheckOutDate = generatedCheckInDate.plusDays(ValueGenerator.generateRandomWeightedDuration());
+			// Check-out date is generated as a LocalDate with Check-in date + 1 day as a min and a 21 days
+			// later limit as a max
+			LocalDate generatedCheckOutDate =
+					generatedCheckInDate.plusDays(ValueGenerator.generateRandomWeightedDuration());
 			booking.setCheck_out_date(generatedCheckOutDate.toString());
 
 			/* ******************** setting guests number ******************** */
@@ -138,7 +150,9 @@ public class MainApp {
 			booking.setGuests_number(guestsNumber);
 
 			/* ******************** setting total price ******************** */
-			Long totalToPay = ValueGenerator.calculateTotalPrice(randomProduct.getDailyrate(), generatedCheckInDate, generatedCheckOutDate);
+			Long totalToPay =
+					ValueGenerator.calculateTotalPrice(randomProduct.getDailyrate(), generatedCheckInDate,
+							generatedCheckOutDate);
 			booking.setTotalToPay(totalToPay);
 
 			/* ******************** filling the list ******************** */
@@ -176,7 +190,8 @@ public class MainApp {
 			}
 		}
 		System.out.println("-BOOKINGS-");
-		System.out.println(bookingsToRemove.size() + " colliding bookings removed out of " + bookings.size() + " generated.");
+		System.out.println(
+				bookingsToRemove.size() + " colliding bookings removed out of " + bookings.size() + " generated.");
 		for (Booking b : bookingsToRemove) {
 			bookings.remove(b);
 		}
@@ -188,7 +203,7 @@ public class MainApp {
 		List<EvaluationForSql> evaluations = new ArrayList<>();
 		for (int i = 0; i < bookings.size(); i++) {
 			Booking booking = bookings.get(i);
-			boolean toBeOrNotToBe = Math.random() < EVALUATION_LEFT_RATIO;
+			boolean toBeOrNotToBe = Math.random() < EVALUATIONS_LEFT_RATIO;
 			if (booking.getCheck_out_date().compareTo(LocalDate.now().toString()) < 0 && toBeOrNotToBe) {
 				// This evaluation will go into the sql import (add escape characters in the commentary )
 				Evaluation evaluationForSql = new Evaluation(
@@ -199,7 +214,9 @@ public class MainApp {
 						ValueGenerator.generateRandomWeightedRating(),
 						ValueGenerator.generateRandomWeightedRating()
 				);
-				evaluations.add(new EvaluationForSql((long) evaluations.size() + 1, evaluationForSql, booking.getProduct(), booking.getUserName()));
+				evaluations.add(new EvaluationForSql(
+						(long) evaluations.size() + 1, evaluationForSql, booking.getProduct(),
+						booking.getUserName()));
 				// That evaluation will end up in the bookings-out.json (no escape characters)
 				Evaluation evaluationForJson = new Evaluation(
 						booking.getCheck_out_date(),
@@ -213,7 +230,7 @@ public class MainApp {
 			}
 		}
 		System.out.println("-EVALUATIONS-");
-		System.out.println(evaluations.size() + " evaluations created.");
+		System.out.println(evaluations.size() + " evaluations created.\r\n");
 		return evaluations;
 	}
 

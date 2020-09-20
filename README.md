@@ -9,7 +9,7 @@ Project to generate two json files and a sql import file in target/data :
    with the evaluations generated here.
 
 Files included in src/main/resources/data:
- - a users-in.json with a list of users (~100) conform to the User and Bookmark dtos.
+ - a users-in.json with a list of users (1000) conform to the User and Bookmark dtos.
  - a products-in.json with a list of products (30) conform to the Product and Evaluation dtos.
  - the three parts of the sql import file that will be pieced together along with the evaluations to form
    the final import file.
