@@ -1,57 +1,81 @@
 package fr.afcepf.ad1al35.MspDataGenerator.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Booking {
 
-	private String booking_date;
-	private String check_in_date;
-	private String check_out_date;
+	@JsonProperty("booking_date")
+	private String bookingDate;
+	@JsonProperty("check_in_date")
+	private String checkInDate;
+	@JsonProperty("check_out_date")
+	private String checkOutDate;
+	@JsonProperty("total_to_pay")
+	private Long totalToPay;
+	@JsonProperty("guests_number")
+	private Integer guestsNumber;
 	private Boolean pets;
 	private Boolean canceled;
 	private Product product;
-	private Integer guests_number;
-	private Long totalToPay;
+	@JsonProperty("user_name")
 	private String userName;
-	private Evaluation evaluation;
+	private  Evaluation evaluation;
 
 	public Booking() {
 	}
 
-	public Booking(String booking_date, String check_in_date, String check_out_date, Boolean pets, Boolean canceled, Product product, Integer guests_number, Long totalToPay, String userName, Evaluation evaluation) {
-		this.booking_date = booking_date;
-		this.check_in_date = check_in_date;
-		this.check_out_date = check_out_date;
+	public Booking(String bookingDate, String checkInDate, String checkOutDate, Long totalToPay, Integer guestsNumber, Boolean pets, Boolean canceled, Product product, String userName, Evaluation evaluation) {
+		this.bookingDate = bookingDate;
+		this.checkInDate = checkInDate;
+		this.checkOutDate = checkOutDate;
+		this.totalToPay = totalToPay;
+		this.guestsNumber = guestsNumber;
 		this.pets = pets;
 		this.canceled = canceled;
 		this.product = product;
-		this.guests_number = guests_number;
-		this.totalToPay = totalToPay;
 		this.userName = userName;
 		this.evaluation = evaluation;
 	}
 
-	public String getBooking_date() {
-		return booking_date;
+	public String getBookingDate() {
+		return bookingDate;
 	}
 
-	public void setBooking_date(String booking_date) {
-		this.booking_date = booking_date;
+	public void setBookingDate(String bookingDate) {
+		this.bookingDate = bookingDate;
 	}
 
-	public String getCheck_in_date() {
-		return check_in_date;
+	public String getCheckInDate() {
+		return checkInDate;
 	}
 
-	public void setCheck_in_date(String check_in_date) {
-		this.check_in_date = check_in_date;
+	public void setCheckInDate(String checkInDate) {
+		this.checkInDate = checkInDate;
 	}
 
-	public String getCheck_out_date() {
-		return check_out_date;
+	public String getCheckOutDate() {
+		return checkOutDate;
 	}
 
-	public void setCheck_out_date(String check_out_date) {
-		this.check_out_date = check_out_date;
+	public void setCheckOutDate(String checkOutDate) {
+		this.checkOutDate = checkOutDate;
+	}
+
+	public Long getTotalToPay() {
+		return totalToPay;
+	}
+
+	public void setTotalToPay(Long totalToPay) {
+		this.totalToPay = totalToPay;
+	}
+
+	public Integer getGuestsNumber() {
+		return guestsNumber;
+	}
+
+	public void setGuestsNumber(Integer guestsNumber) {
+		this.guestsNumber = guestsNumber;
 	}
 
 	public Boolean getPets() {
@@ -76,22 +100,6 @@ public class Booking {
 
 	public void setProduct(Product product) {
 		this.product = product;
-	}
-
-	public Integer getGuests_number() {
-		return guests_number;
-	}
-
-	public void setGuests_number(Integer guests_number) {
-		this.guests_number = guests_number;
-	}
-
-	public Long getTotalToPay() {
-		return totalToPay;
-	}
-
-	public void setTotalToPay(Long totalToPay) {
-		this.totalToPay = totalToPay;
 	}
 
 	public String getUserName() {

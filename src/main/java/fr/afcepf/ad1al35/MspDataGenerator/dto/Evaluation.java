@@ -1,11 +1,15 @@
 package fr.afcepf.ad1al35.MspDataGenerator.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Evaluation {
 
+    @JsonProperty("evaluation_date")
     private String evaluationDate;
     private String commentary;
     private Integer communication;
     private Integer location;
+    @JsonProperty("value_for_money")
     private Integer valueForMoney;
     private Integer residence;
 
