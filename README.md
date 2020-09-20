@@ -13,7 +13,7 @@ Files included in src/main/resources/data:
  - a products-in.json with a list of products (30) conform to the Product and Evaluation dtos.
  - the three parts of the sql import file that will be pieced together along with the evaluations to form
    the final import file.
- - the script used to make users in jsongenerator.com.
+ - the script used to make users in www.json-generator.com
  - the conf file to use in Logstash on the msp-product-housing db to generate the products-in.json (there will be some 
    metadata to remove).
 
