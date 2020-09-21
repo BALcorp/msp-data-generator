@@ -44,7 +44,7 @@ public class MainApp {
 
 		/* ******************** creating users json file ******************** */
 		mapper.writeValue(new File(DATA_TARGET_FOLDER + "users-import.json"), users);
-		System.out.println("*** users-out.json created ***\r\n");
+		System.out.println("*** users-import.json created ***\r\n");
 
 		/* ******************** generating bookings list ******************** */
 		List<Booking> bookings = buildBookings(products, users);
@@ -59,7 +59,7 @@ public class MainApp {
 
 		/* ******************** creating bookings json file ******************** */
 		mapper.writeValue(new File(DATA_TARGET_FOLDER + "bookings-import.json"), bookings);
-		System.out.println("*** bookings-out.json created ***");
+		System.out.println("*** bookings-import.json created ***");
 	}
 
 	public static void removeDuplicatedUsernames(List<User> users) {
