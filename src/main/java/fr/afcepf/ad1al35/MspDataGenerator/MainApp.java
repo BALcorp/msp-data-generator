@@ -118,7 +118,7 @@ public class MainApp {
 
 			int index = (int) Math.floor(Math.random() * users.size());
 			if(index < 1 ) index = 1;
-			booking.setUserName(users.get(index).getUsername());
+			booking.setUsername(users.get(index).getUsername());
 
 			booking.setPets(false);
 			booking.setCanceled(false);
@@ -216,7 +216,7 @@ public class MainApp {
 				);
 				evaluations.add(new EvaluationForSql(
 						(long) evaluations.size() + 1, evaluationForSql, booking.getProduct(),
-						booking.getUserName()));
+						booking.getUsername()));
 				// That evaluation will end up in the bookings-out.json (no escape characters)
 				Evaluation evaluationForJson = new Evaluation(
 						booking.getCheckOutDate(),
@@ -339,7 +339,7 @@ public class MainApp {
 								", " +
 								evaluation.getEvaluation().getResidence() +
 								", '" +
-								evaluation.getUserName() +
+								evaluation.getUsername() +
 								"', " +
 								evaluation.getEvaluation().getValueForMoney() +
 								", " +

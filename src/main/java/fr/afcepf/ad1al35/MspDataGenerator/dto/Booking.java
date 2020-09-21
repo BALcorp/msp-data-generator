@@ -18,14 +18,13 @@ public class Booking {
 	private Boolean pets;
 	private Boolean canceled;
 	private Product product;
-	@JsonProperty("user_name")
-	private String userName;
+	private String username;
 	private  Evaluation evaluation;
 
 	public Booking() {
 	}
 
-	public Booking(String bookingDate, String checkInDate, String checkOutDate, Long totalToPay, Integer guestsNumber, Boolean pets, Boolean canceled, Product product, String userName, Evaluation evaluation) {
+	public Booking(String bookingDate, String checkInDate, String checkOutDate, Long totalToPay, Integer guestsNumber, Boolean pets, Boolean canceled, Product product, String username, Evaluation evaluation) {
 		this.bookingDate = bookingDate;
 		this.checkInDate = checkInDate;
 		this.checkOutDate = checkOutDate;
@@ -34,7 +33,7 @@ public class Booking {
 		this.pets = pets;
 		this.canceled = canceled;
 		this.product = product;
-		this.userName = userName;
+		this.username = username;
 		this.evaluation = evaluation;
 	}
 
@@ -102,12 +101,12 @@ public class Booking {
 		this.product = product;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public Evaluation getEvaluation() {

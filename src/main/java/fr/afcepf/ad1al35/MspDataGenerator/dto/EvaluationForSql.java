@@ -5,13 +5,13 @@ public class EvaluationForSql {
     private Long idEvaluation;
     private Evaluation evaluation;
     private Product product;
-    private String userName;
+    private String username;
 
-    public EvaluationForSql(Long idEvaluation, Evaluation evaluation, Product product, String userName) {
+    public EvaluationForSql(Long idEvaluation, Evaluation evaluation, Product product, String username) {
         this.idEvaluation = idEvaluation;
         this.evaluation = evaluation;
         this.product = product;
-        this.userName = userName;
+        this.username = username;
     }
 
     public Long getIdEvaluation() {
@@ -38,11 +38,11 @@ public class EvaluationForSql {
         this.product = product;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
