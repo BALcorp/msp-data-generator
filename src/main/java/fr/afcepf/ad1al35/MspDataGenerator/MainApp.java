@@ -39,7 +39,7 @@ public class MainApp {
 		/* ******************** importing users to include username in booking ******************** */
 		javaType = mapper.getTypeFactory().constructCollectionType(List.class, User.class);
 		List<User> users = mapper.readValue(new File(DATA_RESOURCES_FOLDER + "users.json"), javaType);
-		removeDuplicatedUserNames(users);
+		removeDuplicatedUsernames(users);
 		removeDuplicatedBookmarks(users);
 
 		/* ******************** creating users json file ******************** */
@@ -62,12 +62,12 @@ public class MainApp {
 		System.out.println("*** bookings-out.json created ***");
 	}
 
-	public static void removeDuplicatedUserNames(List<User> users) {
-		List<String> uniqueUserNames = new ArrayList<>();
+	public static void removeDuplicatedUsernames(List<User> users) {
+		List<String> uniqueUsernames = new ArrayList<>();
 		List<User> usersToRemove = new ArrayList<>();
 		for (User u : users) {
-			boolean isAlreadyInUniqueList = uniqueUserNames.contains(u.getUsername());
-			if (!isAlreadyInUniqueList) uniqueUserNames.add(u.getUsername());
+			boolean isAlreadyInUniqueList = uniqueUsernames.contains(u.getUsername());
+			if (!isAlreadyInUniqueList) uniqueUsernames.add(u.getUsername());
 			else usersToRemove.add(u);
 		}
 		System.out.println("-USERS-");

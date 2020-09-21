@@ -1,7 +1,7 @@
 # msp-data-generator
 
 Project to generate two json files and a sql import file in target/data : 
- - a json of users (users-import.json), with users containing duplicated userName removed 
+ - a json of users (users-import.json), with users containing duplicated username removed 
    and duplicated bookmarks removed.
  - a json of bookings (bookings-import.json), with colliding bookings (on the check in and out dates) removed,
    and generated user evaluation.
