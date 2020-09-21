@@ -17,7 +17,7 @@ DELETE FROM `product`;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
 INSERT INTO `product` (`id_product`, `description`, `title`, `id_property`) VALUES
 (1, 'Vivez une experience parisienne hors du commun avec ce prestigieux appartement au coeur de paris.', 'Appartement lumineux face au marché bio de Convention', 1),
-(2, 'Situeé face aux jardins des Tuileries, ce loft spacieux se trouve dans un immeuble construit en 1920 très élégant, plein de charme et typique de l\'architecture parisienne, il peut accueillir 8 personnes très confortablement.', 'Loft chic en plein coeur de la rue Saint Honoré', 2),
+(2, 'Situé face aux jardins des Tuileries, ce loft spacieux se trouve dans un immeuble construit en 1920 très élégant, plein de charme et typique de l\'architecture parisienne, il peut accueillir 8 personnes très confortablement.', 'Loft chic en plein coeur de la rue Saint Honoré', 2),
 (3, 'Vivez une experience parisienne hors du commun avec ce prestigieux appartement au coeur de paris.', 'Loft atelier face au jardin des Tuileries', 3),
 (4, 'Dans ce loft très spacieux situé à 2 minutes à pieds du marché de Convention et du cinéma rénové de la place, grande luminosité et à l\'abrui de nuisances sonores.', 'Loft totalement rénové place du Trocadéro', 4),
 (5, 'Dans cet appartement datant de 1800 où séjourna Pablo Picasso, vous êtes au coeur du quartier Montmartre des artistes et à 2 pas de la célèbre vigne de Montmartre.', 'Appartement en plein coeur de Montmartre face aux vignobles', 5),
