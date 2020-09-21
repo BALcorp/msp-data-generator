@@ -460,7 +460,7 @@ CREATE TABLE IF NOT EXISTS `evaluation` (
                                             `evaluation_date` datetime(6) DEFAULT NULL,
                                             `location` int(11) DEFAULT NULL,
                                             `residence` int(11) DEFAULT NULL,
-                                            `user_name` varchar(255) DEFAULT NULL,
+                                            `username` varchar(255) DEFAULT NULL,
                                             `value_for_money` int(11) DEFAULT NULL,
                                             `id_product` bigint(20) DEFAULT NULL,
                                             PRIMARY KEY (`id_evaluation`),
