@@ -151,7 +151,7 @@ public class MainApp {
 
 			/* ******************** setting total price ******************** */
 			Long totalToPay =
-					ValueGenerator.calculateTotalPrice(randomProduct.getDailyrate(), generatedCheckInDate,
+					ValueGenerator.calculateTotalPrice(randomProduct.getDailyRate(), generatedCheckInDate,
 							generatedCheckOutDate);
 			booking.setTotalToPay(totalToPay);
 

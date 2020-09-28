@@ -15,7 +15,7 @@ public class Product {
 	@JsonProperty("pets_authorized")
 	private Boolean petsAuthorized;
 	@JsonProperty("daily_rate")
-	private Long dailyrate;
+	private Long dailyRate;
 	private String address;
 	@JsonProperty("address_complement")
 	private String addressComplement;
@@ -25,13 +25,13 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(Long idProduct, String title, Integer size, Integer maxGuests, Boolean petsAuthorized, Long dailyrate, String address, String addressComplement, Integer zipCode) {
+	public Product(Long idProduct, String title, Integer size, Integer maxGuests, Boolean petsAuthorized, Long dailyRate, String address, String addressComplement, Integer zipCode) {
 		this.idProduct = idProduct;
 		this.title = title;
 		this.size = size;
 		this.maxGuests = maxGuests;
 		this.petsAuthorized = petsAuthorized;
-		this.dailyrate = dailyrate;
+		this.dailyRate = dailyRate;
 		this.address = address;
 		this.addressComplement = addressComplement;
 		this.zipCode = zipCode;
@@ -77,12 +77,12 @@ public class Product {
 		this.petsAuthorized = petsAuthorized;
 	}
 
-	public Long getDailyrate() {
-		return dailyrate;
+	public Long getDailyRate() {
+		return dailyRate;
 	}
 
-	public void setDailyrate(Long dailyrate) {
-		this.dailyrate = dailyrate;
+	public void setDailyRate(Long dailyRate) {
+		this.dailyRate = dailyRate;
 	}
 
 	public String getAddress() {
